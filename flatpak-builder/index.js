@@ -76,6 +76,7 @@ const saveManifest = async (manifest, dest) => {
         'Unsupported manifest format, please use a YAML or a JSON file'
       )
   }
+  core.info(`Saving to ${dest}`)
   await fs.writeFile(dest, data)
   return manifest
 }
@@ -145,6 +146,7 @@ const build = async (manifest, manifestPath, bundle, repositoryUrl, repositoryNa
   const branch = manifest.branch || core.getInput('branch') || 'master'
 
   core.info('Building the flatpak...')
+  core.info(`   manifest path: ${manifestPath}`);
 
   const args = [
         `--repo=${localRepoName}`,
@@ -258,6 +260,7 @@ const run = async (
   }
 
   const modifiedManifestPath = getModifiedManifestPath(manifestPath)
+  core.info(`Modified manifest path: ${modifiedManifestPath}`);
   parseManifest(manifestPath)
     .then((manifest) => {
       const modifiedManifest = modifyManifest(manifest, runTests)
